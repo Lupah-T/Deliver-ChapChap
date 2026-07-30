@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Users, Building, Bike, Package, Activity, MapPin, Lock } from 'lucide-react'
@@ -22,6 +22,25 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [bookings, setBookings] = useState<any[]>([])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const fetchBookings = async () => {
+        try {
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+          const res = await fetch(`${apiUrl}/bookings`)
+          const data = await res.json()
+          if (Array.isArray(data)) {
+            setBookings(data)
+          }
+        } catch (err) {
+          console.error("Failed to fetch bookings")
+        }
+      }
+      fetchBookings()
+    }
+  }, [isAuthenticated])
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -148,7 +167,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        <div className="md:col-span-1">
           <Card className="border-none shadow-md h-full overflow-hidden">
             <CardHeader>
               <CardTitle>Active Riders Heatmap</CardTitle>
@@ -167,6 +185,50 @@ export default function AdminDashboard() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      {/* Bookings Table */}
+      <div className="mt-8">
+        <Card className="border-none shadow-md">
+          <CardHeader>
+            <CardTitle>Recent Bookings</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm text-left text-muted-foreground">
+                <thead className="text-xs uppercase bg-accent text-secondary">
+                  <tr>
+                    <th className="px-6 py-3 rounded-tl-lg">Tracking ID</th>
+                    <th className="px-6 py-3">Sender</th>
+                    <th className="px-6 py-3">Recipient</th>
+                    <th className="px-6 py-3">Status</th>
+                    <th className="px-6 py-3 rounded-tr-lg">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookings.map((booking: any) => (
+                    <tr key={booking._id} className="bg-card border-b hover:bg-accent/50 transition-colors">
+                      <td className="px-6 py-4 font-mono font-medium text-primary">{booking.trackingId}</td>
+                      <td className="px-6 py-4">{booking.senderName}</td>
+                      <td className="px-6 py-4">{booking.recipientName}</td>
+                      <td className="px-6 py-4">
+                        <span className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-semibold">
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">{new Date(booking.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                  {bookings.length === 0 && (
+                    <tr>
+                      <td colSpan={5} className="text-center py-8">No bookings found.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   )

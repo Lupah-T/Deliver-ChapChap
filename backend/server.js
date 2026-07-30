@@ -19,6 +19,21 @@ mongoose.connect(MONGODB_URI)
   .catch(err => console.error('MongoDB connection error:', err));
 
 
+const bookingSchema = new mongoose.Schema({
+  trackingId: { type: String, required: true, unique: true },
+  senderName: String,
+  senderEmail: String,
+  recipientName: String,
+  recipientEmail: String,
+  parcelDetails: String,
+  expectedTime: String,
+  status: { type: String, default: 'Booking Confirmed' },
+  progress: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now }
+});
+
+const Booking = mongoose.model('Booking', bookingSchema);
+
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.ethereal.email',
   port: parseInt(process.env.SMTP_PORT || '587'),
@@ -32,28 +47,64 @@ app.post('/api/bookings', async (req, res) => {
   try {
     const { senderEmail, recipientEmail, senderName, recipientName, parcelDetails, expectedTime } = req.body;
     
-    // Simulate booking save to DB here...
+    // Generate unique tracking ID
+    const trackingId = 'DC' + Math.random().toString().slice(2, 11);
+    
+    // Save booking to DB
+    const booking = new Booking({
+      trackingId,
+      senderName,
+      senderEmail,
+      recipientName,
+      recipientEmail,
+      parcelDetails,
+      expectedTime
+    });
+    await booking.save();
     
     // Send email to Sender
-    await transporter.sendMail({
-      from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
-      to: senderEmail,
-      subject: 'Booking Confirmed - Deliver Chap Chap',
-      text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
-    });
+    try {
+      await transporter.sendMail({
+        from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
+        to: senderEmail,
+        subject: 'Booking Confirmed - Deliver Chap Chap',
+        text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
+      });
 
-    // Send email to Recipient
-    await transporter.sendMail({
-      from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
-      to: recipientEmail,
-      subject: 'Incoming Parcel - Deliver Chap Chap',
-      text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
-    });
+      // Send email to Recipient
+      await transporter.sendMail({
+        from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
+        to: recipientEmail,
+        subject: 'Incoming Parcel - Deliver Chap Chap',
+        text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
+      });
+    } catch (emailError) {
+      console.error('Email failed to send, but booking saved:', emailError);
+    }
 
-    res.status(200).json({ status: 'success', message: 'Booking confirmed and emails sent.' });
+    res.status(200).json({ status: 'success', trackingId, message: 'Booking confirmed and emails sent.' });
   } catch (error) {
     console.error('Error processing booking:', error);
     res.status(500).json({ status: 'error', message: 'Failed to process booking.' });
+  }
+});
+
+app.get('/api/bookings/:trackingId', async (req, res) => {
+  try {
+    const booking = await Booking.findOne({ trackingId: req.params.trackingId });
+    if (!booking) return res.status(404).json({ error: 'Tracking ID not found' });
+    res.json(booking);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch tracking info' });
+  }
+});
+
+app.get('/api/bookings', async (req, res) => {
+  try {
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+    res.json(bookings);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch bookings' });
   }
 });
 

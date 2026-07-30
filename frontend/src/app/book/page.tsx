@@ -11,7 +11,7 @@ import { CheckCircle2, MapPin, Package, Clock, Weight } from 'lucide-react'
 export default function BookingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const trackingNumber = "DC" + Math.floor(Math.random() * 1000000000)
+  const [trackingNumber, setTrackingNumber] = useState('')
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ export default function BookingPage() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
     try {
-      await fetch(`${apiUrl}/bookings`, {
+      const res = await fetch(`${apiUrl}/bookings`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -38,8 +38,12 @@ export default function BookingPage() {
           expectedTime
         })
       });
+      const data = await res.json();
+      if (data.trackingId) {
+        setTrackingNumber(data.trackingId);
+      }
     } catch (err) {
-      console.error('Failed to send booking emails:', err);
+      console.error('Failed to create booking:', err);
     }
     
     setIsSubmitting(false);

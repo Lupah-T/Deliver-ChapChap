@@ -14,11 +14,14 @@ export default function TrackPage() {
 
   const [error, setError] = useState('')
 
-  const handleTrack = (e: React.FormEvent) => {
+  const [bookingDetails, setBookingDetails] = useState<any>(null)
+
+  const handleTrack = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
     setIsTracking(false)
     setProgress(0)
+    setBookingDetails(null)
 
     if (trackingNumber.trim() === '') {
       setError('Please enter a tracking number.')
@@ -26,22 +29,34 @@ export default function TrackPage() {
     }
 
     if (trackingNumber.length < 8 || !trackingNumber.startsWith('DC')) {
-      setError('Invalid tracking number. It should start with DC followed by numbers (e.g., DC123456789).')
+      setError('Invalid tracking number format. It should start with DC.')
       return
     }
 
-    // Mock an API request delay
-    setTimeout(() => {
-      setIsTracking(true)
-    }, 1000)
+    try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const res = await fetch(`${apiUrl}/bookings/${trackingNumber}`);
+      
+      if (!res.ok) {
+        setError('Tracking number not found. Please verify the ID and try again.')
+        return
+      }
+
+      const data = await res.json();
+      setBookingDetails(data);
+      setProgress(data.progress || 1);
+      setIsTracking(true);
+    } catch (err) {
+      setError('Failed to connect to tracking server. Try again later.');
+    }
   }
 
-  // Simulate progress
+  // Simulate progress only if we are tracking and progress < 4
   useEffect(() => {
     if (isTracking && progress < 4) {
       const timer = setTimeout(() => {
         setProgress(p => p + 1)
-      }, 2000)
+      }, 3000)
       return () => clearTimeout(timer)
     }
   }, [isTracking, progress])
@@ -133,24 +148,26 @@ export default function TrackPage() {
             <CardContent className="p-6">
               <div className="flex justify-between items-center mb-6">
                 <div>
-                  <p className="text-sm text-muted-foreground">Estimated Time of Arrival</p>
-                  <p className="text-3xl font-bold text-primary">28 Minutes</p>
+                  <p className="text-sm text-muted-foreground">Expected Time of Arrival</p>
+                  <p className="text-3xl font-bold text-primary">{bookingDetails?.expectedTime || "Calculating..."}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-muted-foreground">Distance Remaining</p>
-                  <p className="text-xl font-semibold">4.2 km</p>
+                  <p className="text-sm text-muted-foreground">Status</p>
+                  <p className="text-xl font-semibold capitalize">{bookingDetails?.status || "In Transit"}</p>
                 </div>
               </div>
               <div className="bg-accent rounded-lg p-4 flex items-center gap-4">
                 <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center text-primary">
-                  <span className="font-bold">JM</span>
+                  <span className="font-bold">
+                    {bookingDetails?.senderName?.charAt(0) || "D"}
+                  </span>
                 </div>
                 <div>
-                  <p className="font-semibold text-secondary">James Mwangi</p>
-                  <p className="text-sm text-muted-foreground">Motorbike • KME 123A</p>
+                  <p className="font-semibold text-secondary">Sender: {bookingDetails?.senderName || "Unknown"}</p>
+                  <p className="text-sm text-muted-foreground">Recipient: {bookingDetails?.recipientName || "Unknown"}</p>
                 </div>
                 <div className="ml-auto">
-                  <Button variant="outline" size="sm">Call Rider</Button>
+                  <Button variant="outline" size="sm">Call Support</Button>
                 </div>
               </div>
             </CardContent>
