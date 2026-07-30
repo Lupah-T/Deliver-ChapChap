@@ -12,11 +12,28 @@ export default function TrackPage() {
   const [isTracking, setIsTracking] = useState(false)
   const [progress, setProgress] = useState(0)
 
+  const [error, setError] = useState('')
+
   const handleTrack = (e: React.FormEvent) => {
     e.preventDefault()
-    if (trackingNumber.trim() !== '') {
-      setIsTracking(true)
+    setError('')
+    setIsTracking(false)
+    setProgress(0)
+
+    if (trackingNumber.trim() === '') {
+      setError('Please enter a tracking number.')
+      return
     }
+
+    if (trackingNumber.length < 8 || !trackingNumber.startsWith('DC')) {
+      setError('Invalid tracking number. It should start with DC followed by numbers (e.g., DC123456789).')
+      return
+    }
+
+    // Mock an API request delay
+    setTimeout(() => {
+      setIsTracking(true)
+    }, 1000)
   }
 
   // Simulate progress
@@ -54,6 +71,7 @@ export default function TrackPage() {
             <Search className="w-5 h-5 mr-2" /> Track
           </Button>
         </form>
+        {error && <p className="text-red-500 mt-4 font-medium">{error}</p>}
       </div>
 
       {isTracking && (

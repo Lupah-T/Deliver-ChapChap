@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from './ui/button'
 import { Truck } from 'lucide-react'
+import { ThemeToggle } from './theme-toggle'
 
 export function Navbar() {
   return (
@@ -16,13 +17,15 @@ export function Navbar() {
             <Link href="/services" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Services</Link>
             <Link href="/pricing" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Pricing</Link>
             <Link href="/track" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Track Parcel</Link>
-            <Link href="/dashboard/business" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Business</Link>
+            <Link href="/about" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">About</Link>
+            <Link href="/reviews" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Reviews</Link>
             <Link href="/contact" className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary">Contact</Link>
           </div>
           <div className="flex items-center space-x-4">
             <Link href="/book">
               <Button className="bg-primary text-primary-foreground hover:bg-primary/90">Book Delivery</Button>
             </Link>
+            <ThemeToggle />
           </div>
         </div>
       </div>

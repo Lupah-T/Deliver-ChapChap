@@ -24,8 +24,8 @@ export function Footer() {
         <div>
           <h3 className="font-semibold mb-4 text-primary">Company</h3>
           <ul className="space-y-2 text-sm text-gray-300">
-            <li><Link href="/dashboard/business" className="hover:text-primary transition-colors">Business Solutions</Link></li>
-            <li><Link href="/dashboard/rider" className="hover:text-primary transition-colors">Become a Rider</Link></li>
+            <li><Link href="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+            <li><Link href="/reviews" className="hover:text-primary transition-colors">User Reviews</Link></li>
             <li><Link href="/contact" className="hover:text-primary transition-colors">Contact Us</Link></li>
           </ul>
         </div>
@@ -38,8 +38,9 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 text-center text-sm text-gray-400">
-        &copy; {new Date().getFullYear()} Deliver Chap Chap. All rights reserved.
+      <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 flex flex-col items-center text-sm text-gray-400">
+        <p>&copy; {new Date().getFullYear()} Deliver Chap Chap. All rights reserved.</p>
+        <p className="mt-2 text-xs text-gray-500">Created by LupahTech Solutions</p>
       </div>
     </footer>
   )
