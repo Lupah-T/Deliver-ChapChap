@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Truck, MapPin, Phone, Mail } from 'lucide-react'
+import Image from 'next/image'
+import { MapPin, Phone, Mail } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -7,7 +8,7 @@ export function Footer() {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center space-x-2 mb-4">
-            <Truck className="h-6 w-6 text-primary" />
+            <Image src="/logo.jpg" alt="Deliver Chap Chap Logo" width={32} height={32} className="rounded-full" />
             <span className="font-bold text-xl">Deliver Chap Chap</span>
           </div>
           <p className="text-sm text-gray-300">Fast, Reliable Same-Day Deliveries Across Kenya. Your trusted logistics partner.</p>
