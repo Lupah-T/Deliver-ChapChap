@@ -18,6 +18,12 @@ const data = [
 ]
 
 export default function AdminDashboard() {
+  // ==========================================
+  // 🔐 ADMIN CREDENTIALS (CHANGE THESE VALUES)
+  // ==========================================
+  const ADMIN_USERNAME = 'admin'
+  const ADMIN_PASSWORD = 'D34ult@001'
+
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -44,8 +50,8 @@ export default function AdminDashboard() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
-    // Hardcoded credentials for MVP prototype
-    if (username === 'admin' && password === 'admin123') {
+
+    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
       setIsAuthenticated(true)
       setError('')
     } else {
@@ -107,7 +113,7 @@ export default function AdminDashboard() {
           <Button variant="outline" onClick={() => setIsAuthenticated(false)}>Logout</Button>
         </div>
       </div>
-      
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
         <Card className="border-none shadow-md">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -159,7 +165,7 @@ export default function AdminDashboard() {
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
-                  <Tooltip cursor={{fill: 'transparent'}} />
+                  <Tooltip cursor={{ fill: 'transparent' }} />
                   <Bar dataKey="bookings" fill="#0B1F3A" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -167,69 +173,69 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-          <Card className="border-none shadow-md h-full overflow-hidden">
-            <CardHeader>
-              <CardTitle>Active Riders Heatmap</CardTitle>
-            </CardHeader>
-            <div className="bg-accent h-64 relative flex items-center justify-center border-t border-gray-200">
-              <div className="absolute inset-0 opacity-40 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nairobi_street_map.png/800px-Nairobi_street_map.png')] bg-cover bg-center"></div>
-              <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-primary/40 rounded-full blur-md"></div>
-              <div className="absolute top-1/2 left-1/3 w-12 h-12 bg-primary/60 rounded-full blur-md"></div>
-              <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-primary/30 rounded-full blur-md"></div>
-              <div className="absolute top-2/3 right-1/3 w-16 h-16 bg-primary/70 rounded-full blur-md flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-primary z-10 drop-shadow" />
-              </div>
-            </div>
-            <CardContent className="pt-6">
-              <p className="text-sm text-muted-foreground text-center">High density detected in CBD and Westlands. Recommend deploying 20 idle riders to these zones.</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Bookings Table */}
-      <div className="mt-8">
-        <Card className="border-none shadow-md">
+        <Card className="border-none shadow-md h-full overflow-hidden">
           <CardHeader>
-            <CardTitle>Recent Bookings</CardTitle>
+            <CardTitle>Active Riders Heatmap</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left text-muted-foreground">
-                <thead className="text-xs uppercase bg-accent text-secondary">
-                  <tr>
-                    <th className="px-6 py-3 rounded-tl-lg">Tracking ID</th>
-                    <th className="px-6 py-3">Sender</th>
-                    <th className="px-6 py-3">Recipient</th>
-                    <th className="px-6 py-3">Status</th>
-                    <th className="px-6 py-3 rounded-tr-lg">Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {bookings.map((booking: any) => (
-                    <tr key={booking._id} className="bg-card border-b hover:bg-accent/50 transition-colors">
-                      <td className="px-6 py-4 font-mono font-medium text-primary">{booking.trackingId}</td>
-                      <td className="px-6 py-4">{booking.senderName}</td>
-                      <td className="px-6 py-4">{booking.recipientName}</td>
-                      <td className="px-6 py-4">
-                        <span className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-semibold">
-                          {booking.status}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4">{new Date(booking.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                  {bookings.length === 0 && (
-                    <tr>
-                      <td colSpan={5} className="text-center py-8">No bookings found.</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+          <div className="bg-accent h-64 relative flex items-center justify-center border-t border-gray-200">
+            <div className="absolute inset-0 opacity-40 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nairobi_street_map.png/800px-Nairobi_street_map.png')] bg-cover bg-center"></div>
+            <div className="absolute top-1/4 left-1/4 w-8 h-8 bg-primary/40 rounded-full blur-md"></div>
+            <div className="absolute top-1/2 left-1/3 w-12 h-12 bg-primary/60 rounded-full blur-md"></div>
+            <div className="absolute top-1/3 right-1/4 w-6 h-6 bg-primary/30 rounded-full blur-md"></div>
+            <div className="absolute top-2/3 right-1/3 w-16 h-16 bg-primary/70 rounded-full blur-md flex items-center justify-center">
+              <MapPin className="w-6 h-6 text-primary z-10 drop-shadow" />
             </div>
+          </div>
+          <CardContent className="pt-6">
+            <p className="text-sm text-muted-foreground text-center">High density detected in CBD and Westlands. Recommend deploying 20 idle riders to these zones.</p>
           </CardContent>
         </Card>
       </div>
     </div>
+
+      {/* Bookings Table */ }
+  <div className="mt-8">
+    <Card className="border-none shadow-md">
+      <CardHeader>
+        <CardTitle>Recent Bookings</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm text-left text-muted-foreground">
+            <thead className="text-xs uppercase bg-accent text-secondary">
+              <tr>
+                <th className="px-6 py-3 rounded-tl-lg">Tracking ID</th>
+                <th className="px-6 py-3">Sender</th>
+                <th className="px-6 py-3">Recipient</th>
+                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3 rounded-tr-lg">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking: any) => (
+                <tr key={booking._id} className="bg-card border-b hover:bg-accent/50 transition-colors">
+                  <td className="px-6 py-4 font-mono font-medium text-primary">{booking.trackingId}</td>
+                  <td className="px-6 py-4">{booking.senderName}</td>
+                  <td className="px-6 py-4">{booking.recipientName}</td>
+                  <td className="px-6 py-4">
+                    <span className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs font-semibold">
+                      {booking.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">{new Date(booking.createdAt).toLocaleDateString()}</td>
+                </tr>
+              ))}
+              {bookings.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="text-center py-8">No bookings found.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+    </div >
   )
 }
