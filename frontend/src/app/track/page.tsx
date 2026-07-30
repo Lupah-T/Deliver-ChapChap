@@ -29,7 +29,7 @@ export default function TrackPage() {
     }
 
     if (trackingNumber.length < 8 || !trackingNumber.startsWith('DC')) {
-      setError('Invalid tracking number format. It should start with DC.')
+      setError('Invalid ID')
       return
     }
 
@@ -38,7 +38,7 @@ export default function TrackPage() {
       const res = await fetch(`${apiUrl}/bookings/${trackingNumber}`);
       
       if (!res.ok) {
-        setError('Tracking number not found. Please verify the ID and try again.')
+        setError('Invalid ID')
         return
       }
 

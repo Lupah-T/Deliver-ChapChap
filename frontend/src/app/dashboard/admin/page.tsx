@@ -190,12 +190,11 @@ export default function AdminDashboard() {
             <p className="text-sm text-muted-foreground text-center">High density detected in CBD and Westlands. Recommend deploying 20 idle riders to these zones.</p>
           </CardContent>
         </Card>
-      </div>
     </div>
 
-      {/* Bookings Table */ }
-  <div className="mt-8">
-    <Card className="border-none shadow-md">
+    {/* Bookings Table */}
+    <div className="mt-8">
+      <Card className="border-none shadow-md">
       <CardHeader>
         <CardTitle>Recent Bookings</CardTitle>
       </CardHeader>
