@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ArrowRight, Package, Clock, ShieldCheck, MapPin, Search } from 'lucide-react'
+import { CountUp } from '@/components/CountUp'
 
 export default function Home() {
   return (
@@ -77,19 +78,19 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">1M+</div>
+              <div className="text-4xl md:text-5xl font-bold text-primary mb-2"><CountUp end={1000000} suffix="+" /></div>
               <div className="text-secondary font-medium">Deliveries</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">5K+</div>
+              <div className="text-4xl md:text-5xl font-bold text-primary mb-2"><CountUp end={5000} suffix="+" /></div>
               <div className="text-secondary font-medium">Active Riders</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">99%</div>
+              <div className="text-4xl md:text-5xl font-bold text-primary mb-2"><CountUp end={99} suffix="%" /></div>
               <div className="text-secondary font-medium">Success Rate</div>
             </div>
             <div>
-              <div className="text-4xl md:text-5xl font-bold text-primary mb-2">47</div>
+              <div className="text-4xl md:text-5xl font-bold text-primary mb-2"><CountUp end={47} /></div>
               <div className="text-secondary font-medium">Counties Covered</div>
             </div>
           </div>
