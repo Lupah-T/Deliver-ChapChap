@@ -99,7 +99,7 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-24 bg-white text-center">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-6">Ready to deliver chap chap?</h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-6">Ready to deliver with DropFlexa?</h2>
           <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">Join thousands of businesses and individuals who trust us with their daily logistics needs.</p>
           <Link href="/book">
             <Button size="lg" className="text-lg px-10 py-6 h-auto bg-secondary hover:bg-secondary/90 text-white rounded-full">

@@ -81,7 +81,7 @@ export default function BookingPage() {
       <div className="max-w-5xl mx-auto">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-secondary mb-2">Book a Delivery</h1>
-          <p className="text-muted-foreground">Fill in the details below to schedule your chap chap delivery.</p>
+          <p className="text-muted-foreground">Fill in the details below to schedule your DropFlexa delivery.</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

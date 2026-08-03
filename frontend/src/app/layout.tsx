@@ -8,7 +8,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Deliver Chap Chap | Fast, Reliable Same-Day Deliveries",
+  title: "DropFlexa | Fast, Reliable Same-Day Deliveries",
   description: "Technology-driven courier and logistics company operating in Kenya.",
 };
 

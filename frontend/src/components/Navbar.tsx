@@ -8,10 +8,10 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center mx-auto px-4">
         <Link href="/" className="mr-8 flex items-center space-x-2">
-          <Image src="/logo.jpg" alt="Deliver Chap Chap Logo" width={44} height={44} className="rounded-full" />
+          <Image src="/logo.jpg" alt="DropFlexa Logo" width={44} height={44} className="rounded-full" />
           <div className="flex flex-col uppercase italic font-black tracking-wide leading-none ml-1">
-            <span className="text-secondary dark:text-gray-100 text-lg">Deliver</span>
-            <span className="text-primary text-lg">Chap Chap</span>
+            <span className="text-secondary dark:text-gray-100 text-lg">Drop</span>
+            <span className="text-primary text-lg">Flexa</span>
           </div>
         </Link>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">

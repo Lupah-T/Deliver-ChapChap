@@ -8,8 +8,8 @@ export function Footer() {
       <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <div className="flex items-center space-x-2 mb-4">
-            <Image src="/logo.jpg" alt="Deliver Chap Chap Logo" width={32} height={32} className="rounded-full" />
-            <span className="font-bold text-xl">Deliver Chap Chap</span>
+            <Image src="/logo.jpg" alt="DropFlexa Logo" width={32} height={32} className="rounded-full" />
+            <span className="font-bold text-xl">DropFlexa</span>
           </div>
           <p className="text-sm text-gray-300">Fast, Reliable Same-Day Deliveries Across Kenya. Your trusted logistics partner.</p>
         </div>
@@ -35,12 +35,12 @@ export function Footer() {
           <ul className="space-y-2 text-sm text-gray-300">
             <li className="flex items-center space-x-2"><MapPin className="h-4 w-4" /> <span>Nairobi, Kenya</span></li>
             <li className="flex items-center space-x-2"><Phone className="h-4 w-4" /> <span>+254 700 000 000</span></li>
-            <li className="flex items-center space-x-2"><Mail className="h-4 w-4" /> <span>hello@deliverchapchap.co.ke</span></li>
+            <li className="flex items-center space-x-2"><Mail className="h-4 w-4" /> <span>hello@dropflexa.co.ke</span></li>
           </ul>
         </div>
       </div>
       <div className="container mx-auto px-4 mt-8 pt-8 border-t border-gray-700 flex flex-col items-center text-sm text-gray-400">
-        <p>&copy; {new Date().getFullYear()} Deliver Chap Chap. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} DropFlexa. All rights reserved.</p>
         <p className="mt-2 text-xs text-gray-500">Created by LupahTech Solutions</p>
       </div>
     </footer>

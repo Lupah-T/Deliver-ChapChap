@@ -1,6 +1,6 @@
-# Deliver Chap Chap 🚀
+# DropFlexa 🚀
 
-**Deliver Chap Chap** is a modern, high-performance courier logistics management platform tailored for the Kenyan market. It features a decoupled architecture with a visually stunning Next.js frontend and a robust Express/MongoDB backend, automating essential tasks like booking management and email notifications.
+**DropFlexa** is a modern, high-performance courier logistics management platform tailored for the Kenyan market. It features a decoupled architecture with a visually stunning Next.js frontend and a robust Express/MongoDB backend, automating essential tasks like booking management and email notifications.
 
 ---
 
@@ -15,7 +15,7 @@
 ---
 
 ## 🌟 Overview
-Deliver Chap Chap bridges the gap between couriers and customers by providing an intuitive platform for parcel logistics. Customers can easily request quotes, book deliveries, and receive automated confirmations. The platform features an admin dashboard for operations management.
+DropFlexa bridges the gap between couriers and customers by providing an intuitive platform for parcel logistics. Customers can easily request quotes, book deliveries, and receive automated confirmations. The platform features an admin dashboard for operations management.
 
 ### Key Highlights:
 - **Premium User Experience:** Uses a modern glassmorphism design with interactive animations.
@@ -77,7 +77,7 @@ The system operates as a monorepo containing two main directories:
 
 ```bash
 git clone <repository-url>
-cd Deliver-chapchap
+cd DropFlexa
 ```
 
 ### 2. Backend Setup
@@ -88,7 +88,7 @@ npm install
 Create a `.env` file in the `backend/` directory:
 ```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/deliver-chapchap
+MONGODB_URI=mongodb://localhost:27017/dropflexa
 SMTP_HOST=smtp.ethereal.email
 SMTP_PORT=587
 SMTP_USER=your_email@example.com
@@ -119,7 +119,7 @@ Vercel is the optimal hosting provider for Next.js applications.
 
 1. Push your code to a GitHub, GitLab, or Bitbucket repository.
 2. Log in to [Vercel](https://vercel.com/) and click **Add New Project**.
-3. Import your `Deliver-chapchap` repository.
+3. Import your `DropFlexa` repository.
 4. **Important configuration during import:**
    - **Framework Preset:** Next.js
    - **Root Directory:** `frontend`
@@ -135,7 +135,7 @@ Render is excellent for hosting Node.js REST APIs.
 1. Log in to [Render](https://render.com/) and click **New +** -> **Web Service**.
 2. Connect your GitHub repository.
 3. Configure the web service:
-   - **Name:** deliver-chapchap-backend
+   - **Name:** dropflexa-backend
    - **Root Directory:** `backend`
    - **Environment:** Node
    - **Build Command:** `npm install`
@@ -153,4 +153,4 @@ A `render.yaml` file is included in the root of this project.
 
 ---
 
-*Built with ❤️ for Deliver Chap Chap.*
+*Built with ❤️ for DropFlexa.*

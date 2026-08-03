@@ -28,7 +28,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Our Office</h3>
-                  <p className="text-muted-foreground">Deliver Chap Chap HQ<br/>Westlands, Nairobi, Kenya</p>
+                  <p className="text-muted-foreground">DropFlexa HQ<br/>Westlands, Nairobi, Kenya</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -46,7 +46,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Email</h3>
-                  <p className="text-muted-foreground">support@deliverchapchap.co.ke</p>
+                  <p className="text-muted-foreground">support@dropflexa.co.ke</p>
                 </div>
               </div>
             </CardContent>

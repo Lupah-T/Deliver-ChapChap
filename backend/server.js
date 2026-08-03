@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/deliver-chapchap';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/dropflexa';
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
@@ -65,18 +65,18 @@ app.post('/api/bookings', async (req, res) => {
     // Send email to Sender
     try {
       await transporter.sendMail({
-        from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
+        from: '"DropFlexa" <noreply@dropflexa.co.ke>',
         to: senderEmail,
-        subject: 'Booking Confirmed - Deliver Chap Chap',
-        text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
+        subject: 'Booking Confirmed - DropFlexa',
+        text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
       });
 
       // Send email to Recipient
       await transporter.sendMail({
-        from: '"Deliver Chap Chap" <noreply@deliverchapchap.co.ke>',
+        from: '"DropFlexa" <noreply@dropflexa.co.ke>',
         to: recipientEmail,
-        subject: 'Incoming Parcel - Deliver Chap Chap',
-        text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using Deliver Chap Chap.`
+        subject: 'Incoming Parcel - DropFlexa',
+        text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
       });
     } catch (emailError) {
       console.error('Email failed to send, but booking saved:', emailError);
