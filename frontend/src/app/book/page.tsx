@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { CheckCircle2, MapPin, Package, Clock, Weight } from 'lucide-react'
+import { CheckCircle2, MapPin, Package, Clock, Weight, User, UserCheck } from 'lucide-react'
 
 export default function BookingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -30,9 +30,11 @@ export default function BookingPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          senderName: elements.sender.value,
+          senderName: elements.senderName.value,
+          senderPhone: elements.senderPhone.value,
           senderEmail: elements.senderEmail.value,
-          recipientName: elements.recipient.value,
+          recipientName: elements.recipientName.value,
+          recipientPhone: elements.recipientPhone.value,
           recipientEmail: elements.recipientEmail.value,
           parcelDetails: `Package (~${elements.weight.value}kg)`,
           expectedTime
@@ -104,25 +106,40 @@ export default function BookingPage() {
                     </div>
                   </div>
 
-                  {/* Contacts */}
+                  {/* Sender Details */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2"><Package className="w-5 h-5 text-primary" /> Contacts</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <h3 className="text-lg font-semibold flex items-center gap-2"><User className="w-5 h-5 text-primary" /> Sender Details</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="sender">Sender Name & Phone</Label>
-                        <Input id="sender" name="sender" placeholder="e.g. John Doe - 0700123456" required />
+                        <Label htmlFor="senderName">Sender Name</Label>
+                        <Input id="senderName" name="senderName" placeholder="e.g. John Doe" required />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="senderEmail">Sender Email</Label>
-                        <Input id="senderEmail" name="senderEmail" type="email" placeholder="e.g. john@example.com" required />
+                        <Label htmlFor="senderPhone">Sender Phone</Label>
+                        <Input id="senderPhone" name="senderPhone" type="tel" placeholder="e.g. 0700123456" required />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="recipient">Recipient Name & Phone</Label>
-                        <Input id="recipient" name="recipient" placeholder="e.g. Jane Doe - 0700654321" required />
+                        <Label htmlFor="senderEmail">Sender Email (Optional)</Label>
+                        <Input id="senderEmail" name="senderEmail" type="email" placeholder="e.g. john@example.com" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Recipient Details */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold flex items-center gap-2"><UserCheck className="w-5 h-5 text-primary" /> Recipient Details</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="recipientName">Recipient Name</Label>
+                        <Input id="recipientName" name="recipientName" placeholder="e.g. Jane Doe" required />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="recipientEmail">Recipient Email</Label>
-                        <Input id="recipientEmail" name="recipientEmail" type="email" placeholder="e.g. jane@example.com" required />
+                        <Label htmlFor="recipientPhone">Recipient Phone</Label>
+                        <Input id="recipientPhone" name="recipientPhone" type="tel" placeholder="e.g. 0700654321" required />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="recipientEmail">Recipient Email (Optional)</Label>
+                        <Input id="recipientEmail" name="recipientEmail" type="email" placeholder="e.g. jane@example.com" />
                       </div>
                     </div>
                   </div>

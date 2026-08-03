@@ -22,8 +22,10 @@ mongoose.connect(MONGODB_URI)
 const bookingSchema = new mongoose.Schema({
   trackingId: { type: String, required: true, unique: true },
   senderName: String,
+  senderPhone: String,
   senderEmail: String,
   recipientName: String,
+  recipientPhone: String,
   recipientEmail: String,
   parcelDetails: String,
   expectedTime: String,
@@ -45,7 +47,7 @@ const transporter = nodemailer.createTransport({
 
 app.post('/api/bookings', async (req, res) => {
   try {
-    const { senderEmail, recipientEmail, senderName, recipientName, parcelDetails, expectedTime } = req.body;
+    const { senderEmail, recipientEmail, senderName, senderPhone, recipientName, recipientPhone, parcelDetails, expectedTime } = req.body;
     
     // Generate unique tracking ID
     const trackingId = 'DC' + Math.random().toString().slice(2, 11);
@@ -54,8 +56,10 @@ app.post('/api/bookings', async (req, res) => {
     const booking = new Booking({
       trackingId,
       senderName,
+      senderPhone,
       senderEmail,
       recipientName,
+      recipientPhone,
       recipientEmail,
       parcelDetails,
       expectedTime
@@ -63,23 +67,31 @@ app.post('/api/bookings', async (req, res) => {
     await booking.save();
     
     // Send email to Sender
-    try {
-      await transporter.sendMail({
-        from: '"DropFlexa" <noreply@dropflexa.co.ke>',
-        to: senderEmail,
-        subject: 'Booking Confirmed - DropFlexa',
-        text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
-      });
+    if (senderEmail) {
+      try {
+        await transporter.sendMail({
+          from: '"DropFlexa" <noreply@dropflexa.co.ke>',
+          to: senderEmail,
+          subject: 'Booking Confirmed - DropFlexa',
+          text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
+        });
+      } catch (emailError) {
+        console.error('Sender email failed:', emailError);
+      }
+    }
 
-      // Send email to Recipient
-      await transporter.sendMail({
-        from: '"DropFlexa" <noreply@dropflexa.co.ke>',
-        to: recipientEmail,
-        subject: 'Incoming Parcel - DropFlexa',
-        text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
-      });
-    } catch (emailError) {
-      console.error('Email failed to send, but booking saved:', emailError);
+    // Send email to Recipient
+    if (recipientEmail) {
+      try {
+        await transporter.sendMail({
+          from: '"DropFlexa" <noreply@dropflexa.co.ke>',
+          to: recipientEmail,
+          subject: 'Incoming Parcel - DropFlexa',
+          text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
+        });
+      } catch (emailError) {
+        console.error('Recipient email failed:', emailError);
+      }
     }
 
     res.status(200).json({ status: 'success', trackingId, message: 'Booking confirmed and emails sent.' });
