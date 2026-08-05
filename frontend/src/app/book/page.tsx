@@ -124,7 +124,10 @@ export default function BookingPage() {
     
     const expectedTime = new Date(Date.now() + quote.duration * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:5000/api` : 'http://localhost:5000/api');
+    let apiUrl = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:5000/api` : 'http://localhost:5000/api');
+    if (process.env.NEXT_PUBLIC_API_URL && !process.env.NEXT_PUBLIC_API_URL.endsWith('/api')) {
+      apiUrl = process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '') + '/api';
+    }
 
     try {
       const res = await fetch(`${apiUrl}/bookings`, {
