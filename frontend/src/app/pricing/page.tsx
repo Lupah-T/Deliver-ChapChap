@@ -2,73 +2,91 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Check, CheckCircle2 } from 'lucide-react'
+import { CheckCircle2, Map } from 'lucide-react'
 import Link from 'next/link'
 
 export default function PricingPage() {
+  const zones = [
+    {
+      name: "Immediate Radius",
+      price: "KSh 200 – 250",
+      areas: "Ngara, Pangani, Starehe, Upper Hill, Community",
+      popular: false
+    },
+    {
+      name: "Inner Suburbs",
+      price: "KSh 300",
+      areas: "Westlands, Kilimani, Kileleshwa, Parklands, Lavington, South B, South C, Nairobi West",
+      popular: true
+    },
+    {
+      name: "Mid-Tier Ring",
+      price: "KSh 300 – 400",
+      areas: "Roysambu, Kasarani, Mbagathi, Dagoretti Corner, Eastleigh",
+      popular: false
+    },
+    {
+      name: "Outer Ring / Highways",
+      price: "KSh 400 – 500",
+      areas: "Thika Road (up to TRM), Mombasa Road, Lang'ata, Ngong Road, Kangemi",
+      popular: false
+    },
+    {
+      name: "Nairobi Outskirts",
+      price: "KSh 500 – 800",
+      areas: "Karen, Kikuyu, Kiambu Town, Ruiru, Kitengela, Rongai, Athi River",
+      popular: false
+    }
+  ];
+
   return (
     <div className="container mx-auto px-4 py-16 min-h-[80vh]">
       <div className="text-center mb-16 max-w-3xl mx-auto">
-        <h1 className="text-4xl font-bold text-secondary mb-4">Transparent Pricing for Every Need</h1>
-        <p className="text-muted-foreground text-lg">Whether you are sending a single document or managing a supply chain, we have the right plan for you.</p>
+        <h1 className="text-4xl font-bold text-secondary mb-4">Distance-Based Transparent Pricing</h1>
+        <p className="text-muted-foreground text-lg">Our pricing is calculated dynamically based on distance from the CBD. We currently operate exclusively within Nairobi and Kiambu.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {/* Same Day */}
-        <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-          <CardHeader>
-            <CardTitle className="text-2xl">Standard Same Day</CardTitle>
-            <CardDescription>Perfect for flexible daily deliveries.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <span className="text-4xl font-bold text-secondary">From KES 250</span>
-              <span className="text-muted-foreground">/delivery</span>
-            </div>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Delivery within 6 hours</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Live tracking included</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> SMS notifications</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Standard insurance</li>
-            </ul>
-          </CardContent>
-          <CardFooter>
-            <Link href="/book" className="w-full">
-              <Button className="w-full" variant="outline">Book Now</Button>
-            </Link>
-          </CardFooter>
-        </Card>
-
-        {/* Express */}
-        <Card className="border-2 border-primary shadow-xl hover:shadow-2xl transition-all relative transform md:-translate-y-4">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">
-            Most Popular
-          </div>
-          <CardHeader>
-            <CardTitle className="text-2xl text-primary">Express Under 2hrs</CardTitle>
-            <CardDescription>When it absolutely needs to be there now.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <span className="text-4xl font-bold text-secondary">From KES 450</span>
-              <span className="text-muted-foreground">/delivery</span>
-            </div>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Guaranteed under 2 hours</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Priority routing</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Premium insurance coverage</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Direct driver contact</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> WhatsApp notifications</li>
-            </ul>
-          </CardContent>
-          <CardFooter>
-            <Link href="/book" className="w-full">
-              <Button className="w-full bg-primary hover:bg-primary/90 text-white text-lg h-12">Book Express</Button>
-            </Link>
-          </CardFooter>
-        </Card>
-
-        {/* Corporate */}
+      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        {zones.map((zone, idx) => (
+          <Card key={idx} className={`border-none shadow-lg hover:shadow-xl transition-all relative ${zone.popular ? 'border-2 border-primary shadow-xl transform md:-translate-y-2' : ''}`}>
+            {zone.popular && (
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-primary text-white px-4 py-1 rounded-full text-sm font-semibold">
+                Most Popular
+              </div>
+            )}
+            <CardHeader>
+              <CardTitle className={`text-2xl ${zone.popular ? 'text-primary' : ''}`}>{zone.name}</CardTitle>
+              <CardDescription>Zone {idx + 1}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="mb-6">
+                <span className="text-3xl font-bold text-secondary">{zone.price}</span>
+                <span className="text-muted-foreground">/delivery</span>
+              </div>
+              <div className="space-y-4">
+                <div>
+                  <p className="font-semibold text-sm mb-2 flex items-center gap-2">
+                    <Map className="w-4 h-4 text-primary" /> Covered Areas:
+                  </p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{zone.areas}</p>
+                </div>
+                <ul className="space-y-2 pt-4 border-t border-border">
+                  <li className="flex items-center gap-2 text-sm"><CheckCircle2 className="w-4 h-4 text-primary" /> Free GPS Tracking</li>
+                  <li className="flex items-center gap-2 text-sm"><CheckCircle2 className="w-4 h-4 text-primary" /> Same-day delivery</li>
+                </ul>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/book" className="w-full">
+                <Button className="w-full" variant={zone.popular ? "default" : "outline"}>
+                  {zone.popular ? "Book Now" : "Select Zone"}
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        ))}
+        
+        {/* Corporate / Special Case */}
         <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-secondary text-secondary-foreground">
           <CardHeader>
             <CardTitle className="text-2xl">Corporate Business</CardTitle>
@@ -76,17 +94,15 @@ export default function PricingPage() {
           </CardHeader>
           <CardContent>
             <div className="mb-6">
-              <span className="text-4xl font-bold">Custom Pricing</span>
+              <span className="text-3xl font-bold">Custom Pricing</span>
             </div>
             <ul className="space-y-3 text-gray-300">
               <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Dedicated account manager</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Monthly invoicing</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Advanced API integration</li>
-              <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Custom analytics dashboard</li>
               <li className="flex items-center gap-2"><CheckCircle2 className="w-5 h-5 text-primary" /> Discounted volume rates</li>
             </ul>
           </CardContent>
-          <CardFooter>
+          <CardFooter className="mt-14">
             <Link href="/contact" className="w-full">
               <Button className="w-full bg-white text-secondary hover:bg-gray-100">Contact Sales</Button>
             </Link>

@@ -21,6 +21,18 @@ mongoose.connect(MONGODB_URI)
 
 const bookingSchema = new mongoose.Schema({
   trackingId: { type: String, required: true, unique: true },
+  pickupAddress: String,
+  destinationAddress: String,
+  pickupLocation: {
+    lat: Number,
+    lng: Number
+  },
+  destinationLocation: {
+    lat: Number,
+    lng: Number
+  },
+  distance: Number,
+  estimatedCost: Number,
   senderName: String,
   senderPhone: String,
   senderEmail: String,
@@ -45,16 +57,37 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Clean up unverified spam bookings every hour
+setInterval(async () => {
+  try {
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    await Booking.deleteMany({
+      status: 'Pending Payment',
+      createdAt: { $lt: oneHourAgo }
+    });
+    console.log('Cleaned up unverified bookings');
+  } catch (err) {
+    console.error('Cleanup error:', err);
+  }
+}, 60 * 60 * 1000);
+
 app.post('/api/bookings', async (req, res) => {
   try {
-    const { senderEmail, recipientEmail, senderName, senderPhone, recipientName, recipientPhone, parcelDetails, expectedTime } = req.body;
+    const { 
+      pickupAddress, destinationAddress, pickupLocation, destinationLocation, distance, estimatedCost,
+      senderEmail, recipientEmail, senderName, senderPhone, recipientName, recipientPhone, parcelDetails, expectedTime 
+    } = req.body;
+
     
-    // Generate unique tracking ID
-    const trackingId = 'DC' + Math.random().toString().slice(2, 11);
-    
-    // Save booking to DB
+    // Save booking to DB without trackingId (Pending Payment)
     const booking = new Booking({
-      trackingId,
+      trackingId: 'PENDING_' + Math.random().toString().slice(2, 11), // Temporary ID
+      pickupAddress,
+      destinationAddress,
+      pickupLocation,
+      destinationLocation,
+      distance,
+      estimatedCost,
       senderName,
       senderPhone,
       senderEmail,
@@ -62,39 +95,85 @@ app.post('/api/bookings', async (req, res) => {
       recipientPhone,
       recipientEmail,
       parcelDetails,
-      expectedTime
+      expectedTime,
+      status: 'Pending Payment'
     });
     await booking.save();
     
-    // Send email to Sender
-    if (senderEmail) {
-      try {
-        await transporter.sendMail({
-          from: '"DropFlexa" <noreply@dropflexa.co.ke>',
-          to: senderEmail,
-          subject: 'Booking Confirmed - DropFlexa',
-          text: `Hello ${senderName},\n\nYour booking for the parcel (${parcelDetails}) has been confirmed. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
-        });
-      } catch (emailError) {
-        console.error('Sender email failed:', emailError);
-      }
-    }
+    // We do NOT send emails yet, only after STK success
+    res.status(200).json({ status: 'success', bookingId: booking._id, message: 'Booking initialized, waiting for payment.' });
+  } catch (error) {
+    console.error('Error processing booking:', error);
+    res.status(500).json({ status: 'error', message: 'Failed to process booking.' });
+  }
+});
 
-    // Send email to Recipient
-    if (recipientEmail) {
-      try {
-        await transporter.sendMail({
-          from: '"DropFlexa" <noreply@dropflexa.co.ke>',
-          to: recipientEmail,
-          subject: 'Incoming Parcel - DropFlexa',
-          text: `Hello ${recipientName},\n\nYou have an incoming parcel (${parcelDetails}) from ${senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${expectedTime}.\n\nThank you for using DropFlexa.`
-        });
-      } catch (emailError) {
-        console.error('Recipient email failed:', emailError);
-      }
-    }
+// STK Push Endpoint (Sandbox Mock)
+app.post('/api/mpesa/stkpush', async (req, res) => {
+  const { bookingId, phone, amount } = req.body;
+  
+  try {
+    const booking = await Booking.findById(bookingId);
+    if (!booking) return res.status(404).json({ error: 'Booking not found' });
 
-    res.status(200).json({ status: 'success', trackingId, message: 'Booking confirmed and emails sent.' });
+    console.log(`[M-PESA SIMULATION] Initiating STK push to ${phone} for KES ${amount}`);
+    
+    // Send immediate response to frontend that STK is sent
+    res.json({ success: true, message: 'STK Push sent to phone.' });
+
+    // Simulate user taking time to enter PIN (8 seconds)
+    setTimeout(async () => {
+      try {
+        console.log(`[M-PESA SIMULATION] Payment of KES ${amount} received from ${phone}`);
+        
+        // Generate actual tracking ID
+        const trackingId = 'DC' + Math.random().toString().slice(2, 11);
+        
+        booking.trackingId = trackingId;
+        booking.status = 'Booking Confirmed';
+        await booking.save();
+
+        // Send confirmation emails
+        if (booking.senderEmail) {
+          try {
+            await transporter.sendMail({
+              from: '"DropFlexa" <noreply@dropflexa.co.ke>',
+              to: booking.senderEmail,
+              subject: 'Booking Confirmed - DropFlexa',
+              text: `Hello ${booking.senderName},\n\nYour payment of KES ${booking.estimatedCost} was successful. Your tracking number is ${trackingId}. It is expected to arrive at ${booking.expectedTime}.\n\nThank you for using DropFlexa.`
+            });
+          } catch (err) {
+            console.error('Sender email error:', err.message);
+          }
+        }
+        if (booking.recipientEmail) {
+          try {
+            await transporter.sendMail({
+              from: '"DropFlexa" <noreply@dropflexa.co.ke>',
+              to: booking.recipientEmail,
+              subject: 'Incoming Parcel - DropFlexa',
+              text: `Hello ${booking.recipientName},\n\nYou have an incoming parcel (${booking.parcelDetails}) from ${booking.senderName}. Your tracking number is ${trackingId}. It is expected to arrive at ${booking.expectedTime}.\n\nThank you for using DropFlexa.`
+            });
+          } catch (err) {
+            console.error('Recipient email error:', err.message);
+          }
+        }
+      } catch (err) {
+        console.error('Simulated callback error:', err);
+      }
+    }, 8000);
+
+  } catch (error) {
+    res.status(500).json({ error: 'STK push failed' });
+  }
+});
+
+// Polling endpoint for frontend
+app.get('/api/bookings/status/:id', async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+    if (!booking) return res.status(404).json({ error: 'Not found' });
+    res.json({ status: booking.status, trackingId: booking.trackingId });
   } catch (error) {
     console.error('Error processing booking:', error);
     res.status(500).json({ status: 'error', message: 'Failed to process booking.' });

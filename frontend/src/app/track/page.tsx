@@ -61,12 +61,23 @@ export default function TrackPage() {
     }
   }, [isTracking, progress])
 
+  const formatTime = (dateString: string, addMinutes = 0) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    date.setMinutes(date.getMinutes() + addMinutes);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const submitTime = bookingDetails?.createdAt ? formatTime(bookingDetails.createdAt) : "Loading...";
+  const assignTime = bookingDetails?.createdAt && progress >= 1 ? formatTime(bookingDetails.createdAt, 5) + " - James Mwangi" : "Pending";
+  const pickTime = bookingDetails?.createdAt && progress >= 2 ? formatTime(bookingDetails.createdAt, 15) : "Pending";
+
   const steps = [
-    { title: "Booking Confirmed", desc: "10:30 AM", active: true },
-    { title: "Rider Assigned", desc: "10:35 AM - James Mwangi", active: progress >= 1 },
-    { title: "Parcel Picked", desc: "10:45 AM", active: progress >= 2 },
+    { title: "Booking Confirmed", desc: submitTime, active: true },
+    { title: "Rider Assigned", desc: assignTime, active: progress >= 1 },
+    { title: "Parcel Picked", desc: pickTime, active: progress >= 2 },
     { title: "In Transit", desc: "Current Status", active: progress >= 3 },
-    { title: "Near Destination", desc: "ETA: 28 mins", active: progress >= 4 },
+    { title: "Near Destination", desc: `ETA: ${bookingDetails?.expectedTime || "Pending"}`, active: progress >= 4 },
     { title: "Delivered", desc: "Pending", active: false },
   ]
 

@@ -37,7 +37,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Phone</h3>
-                  <p className="text-muted-foreground">+254 700 000 000</p>
+                  <p className="text-muted-foreground">+254 713 482 742</p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -52,9 +52,11 @@ export default function ContactPage() {
             </CardContent>
           </Card>
 
-          <Button className="w-full h-14 bg-green-500 hover:bg-green-600 text-white text-lg">
-            <MessageCircle className="w-6 h-6 mr-2" /> Chat on WhatsApp
-          </Button>
+          <a href="https://wa.me/254713482742" target="_blank" rel="noreferrer">
+            <Button className="w-full h-14 bg-green-500 hover:bg-green-600 text-white text-lg">
+              <MessageCircle className="w-6 h-6 mr-2" /> Chat on WhatsApp
+            </Button>
+          </a>
 
           {/* Mock Map */}
           <div className="bg-accent h-64 rounded-xl overflow-hidden relative">
