@@ -34,7 +34,7 @@ export default function TrackPage() {
     }
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:5000/api` : 'http://localhost:5000/api');
       const res = await fetch(`${apiUrl}/bookings/${trackingNumber}`);
       
       if (!res.ok) {

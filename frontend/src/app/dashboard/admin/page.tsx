@@ -34,7 +34,7 @@ export default function AdminDashboard() {
     if (isAuthenticated) {
       const fetchBookings = async () => {
         try {
-          const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'
+          const apiUrl = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:5000/api` : 'http://localhost:5000/api');
           const res = await fetch(`${apiUrl}/bookings`)
           const data = await res.json()
           if (Array.isArray(data)) {

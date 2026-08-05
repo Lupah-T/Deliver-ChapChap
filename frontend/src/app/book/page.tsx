@@ -30,7 +30,7 @@ export default function BookingPage() {
   const [destinationLocation, setDestinationLocation] = useState<{lat: number, lng: number} | null>(null)
   
   // Quote states
-  const [quote, setQuote] = useState({ totalFare: 300, baseFare: 300, distanceFare: 0, distance: 0, duration: 45 })
+  const [quote, setQuote] = useState({ totalFare: 0, baseFare: 0, distanceFare: 0, distance: 0, duration: 0 })
   const [isLocating, setIsLocating] = useState(false)
 
   // Reverse Geocode to get address string from coordinates
@@ -124,7 +124,7 @@ export default function BookingPage() {
     
     const expectedTime = new Date(Date.now() + quote.duration * 60000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? `http://${window.location.hostname}:5000/api` : 'http://localhost:5000/api');
 
     try {
       const res = await fetch(`${apiUrl}/bookings`, {
@@ -439,7 +439,7 @@ export default function BookingPage() {
                   <Clock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-semibold text-white">Estimated Delivery Time</p>
-                    <p className="text-gray-400 mt-1">{quote.duration} minutes after pickup</p>
+                    <p className="text-gray-400 mt-1">{quote.duration > 0 ? `${quote.duration} minutes after pickup` : 'Pending location selection'}</p>
                   </div>
                 </div>
               </CardContent>
