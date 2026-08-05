@@ -7,15 +7,7 @@ import { Users, Building, Bike, Package, Activity, MapPin, Lock } from 'lucide-r
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-const data = [
-  { name: 'Mon', bookings: 1200 },
-  { name: 'Tue', bookings: 1400 },
-  { name: 'Wed', bookings: 1100 },
-  { name: 'Thu', bookings: 1600 },
-  { name: 'Fri', bookings: 1900 },
-  { name: 'Sat', bookings: 1500 },
-  { name: 'Sun', bookings: 900 },
-]
+
 
 export default function AdminDashboard() {
   // ==========================================
@@ -50,6 +42,27 @@ export default function AdminDashboard() {
       fetchBookings()
     }
   }, [isAuthenticated])
+
+  // Computed Real Data
+  const totalCustomers = new Set(bookings.map((b: any) => b.senderPhone)).size
+  const totalBookings = bookings.length
+  
+  const today = new Date().toDateString()
+  const todayRevenue = bookings
+    .filter((b: any) => new Date(b.createdAt).toDateString() === today && b.status !== 'Pending Payment')
+    .reduce((sum: number, b: any) => sum + (Number(b.estimatedCost) || 0), 0)
+
+  // Chart Data
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+  const chartDataMap = { Mon: 0, Tue: 0, Wed: 0, Thu: 0, Fri: 0, Sat: 0, Sun: 0 }
+  bookings.forEach((b: any) => {
+    const day = days[new Date(b.createdAt).getDay()] as keyof typeof chartDataMap
+    chartDataMap[day] += 1
+  })
+  const chartData = Object.keys(chartDataMap).map(key => ({
+    name: key,
+    bookings: chartDataMap[key as keyof typeof chartDataMap]
+  }))
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -124,16 +137,16 @@ export default function AdminDashboard() {
             <Users className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-secondary">24,500</div>
+            <div className="text-2xl font-bold text-secondary">{totalCustomers}</div>
           </CardContent>
         </Card>
         <Card className="border-none shadow-md">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">Active Businesses</CardTitle>
-            <Building className="w-4 h-4 text-primary" />
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Bookings</CardTitle>
+            <Package className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-secondary">1,250</div>
+            <div className="text-2xl font-bold text-secondary">{totalBookings}</div>
           </CardContent>
         </Card>
         <Card className="border-none shadow-md">
@@ -142,16 +155,16 @@ export default function AdminDashboard() {
             <Bike className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-secondary">482</div>
+            <div className="text-2xl font-bold text-secondary">8</div>
           </CardContent>
         </Card>
         <Card className="border-none shadow-md">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Today's Revenue</CardTitle>
-            <Package className="w-4 h-4 text-primary" />
+            <Activity className="w-4 h-4 text-primary" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-secondary">KES 1.2M</div>
+            <div className="text-2xl font-bold text-secondary">KES {todayRevenue.toLocaleString()}</div>
           </CardContent>
         </Card>
       </div>
@@ -164,7 +177,7 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={data}>
+                <BarChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} />
                   <YAxis axisLine={false} tickLine={false} />
