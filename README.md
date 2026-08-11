@@ -28,9 +28,11 @@ DropFlexa bridges the gap between couriers and customers by providing an intuiti
 ## ✨ Features
 
 ### Non-Technical (User Features)
-- **Instant Booking:** Quick parcel delivery request system.
+- **Instant Booking:** Quick parcel delivery request system with delivery countdowns and automated terms checkboxes.
 - **Automated Email Confirmations:** Both sender and recipient receive immediate email updates about their delivery.
-- **Modern Landing Page:** Highly interactive and aesthetic interface designed for high conversion.
+- **Interactive FAQ:** Answers to common questions directly on the homepage to speed up conversions.
+- **Driver Portal & Application:** A dedicated application funnel (`/apply`) to recruit fleet riders, and a portal for existing riders to submit Proof of Delivery.
+- **Modern Landing Page:** Highly interactive and aesthetic interface designed for high conversion, including click-to-call phone numbers.
 - **Responsive Design:** Seamless experience across desktop, tablet, and mobile devices.
 
 ### Technical Features
@@ -113,6 +115,16 @@ Access the frontend at `http://localhost:3000` and backend API at `http://localh
 ---
 
 ## 🌍 Deployment Guide
+
+### 🚨 CRITICAL PRE-FLIGHT CHECKLIST (DO NOT FORGET) 🚨
+Before launching the application into production, you **MUST** complete the following steps to ensure the Driver Portal functions correctly:
+
+1. **Create the Google Form** for Proof of Delivery.
+2. **Get the Field ID (`entry.XXXXX`)** for the Tracking ID question by generating a "Pre-filled link" via Google Forms.
+3. **Update the Code:** Open `frontend/src/app/driver/page.tsx` and replace the placeholder `const entryId = "entry.123456789"` (around Line 12) with your actual Google Form field ID. 
+*If you skip this step, the Tracking ID will not auto-fill for your drivers!*
+
+---
 
 ### ⚡ Deploying Frontend to Vercel
 Vercel is the optimal hosting provider for Next.js applications.

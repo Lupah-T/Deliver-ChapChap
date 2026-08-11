@@ -251,6 +251,65 @@ export default function AdminDashboard() {
       </CardContent>
     </Card>
   </div>
+    {/* Rider Applications & Forms Section */}
+    <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8 pb-12">
+      {/* Driver Applications */}
+      <Card className="border-none shadow-md">
+        <CardHeader>
+          <CardTitle>Recent Rider Applications</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm text-left text-muted-foreground">
+              <thead className="text-xs uppercase bg-accent text-secondary">
+                <tr>
+                  <th className="px-4 py-3 rounded-tl-lg">Applicant Name</th>
+                  <th className="px-4 py-3">Phone</th>
+                  <th className="px-4 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="bg-card border-b">
+                  <td className="px-4 py-3">John Kamau</td>
+                  <td className="px-4 py-3">0711223344</td>
+                  <td className="px-4 py-3"><span className="text-orange-500 bg-orange-100 px-2 py-1 rounded-full text-xs">Pending Review</span></td>
+                </tr>
+                <tr className="bg-card border-b">
+                  <td className="px-4 py-3">Peter Ochieng</td>
+                  <td className="px-4 py-3">0722334455</td>
+                  <td className="px-4 py-3"><span className="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs">Approved</span></td>
+                </tr>
+                <tr className="bg-card">
+                  <td className="px-4 py-3">David Mutua</td>
+                  <td className="px-4 py-3">0733445566</td>
+                  <td className="px-4 py-3"><span className="text-orange-500 bg-orange-100 px-2 py-1 rounded-full text-xs">Pending Review</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Proof of Delivery Submissions */}
+      <Card className="border-none shadow-md">
+        <CardHeader>
+          <CardTitle>Proof of Delivery Submissions (Google Forms)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col items-center justify-center py-8 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
+            <Package className="w-12 h-12 text-gray-400 mb-4" />
+            <h3 className="text-lg font-semibold text-secondary mb-2">Google Forms Integration Active</h3>
+            <p className="text-sm text-muted-foreground max-w-sm mb-6">
+              Riders are submitting Proof of Delivery photos directly to your Google Drive via the Driver Portal.
+            </p>
+            <a href="https://docs.google.com/forms" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline">View Responses in Google Sheets</Button>
+            </a>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+
     </div >
   )
 }

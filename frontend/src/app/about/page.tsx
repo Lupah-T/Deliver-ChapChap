@@ -5,7 +5,7 @@ export default function AboutPage() {
     <div className="container mx-auto px-4 py-16 min-h-[80vh]">
       <div className="max-w-3xl mx-auto text-center mb-16">
         <h1 className="text-4xl font-bold text-secondary mb-4">About DropFlexa</h1>
-        <p className="text-muted-foreground text-lg">We are revolutionizing logistics in Kenya with speed, reliability, and precision.</p>
+        <p className="text-muted-foreground text-lg">We are revolutionizing courier services in Kenya with speed, reliability, and precision.</p>
       </div>
 
       <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">

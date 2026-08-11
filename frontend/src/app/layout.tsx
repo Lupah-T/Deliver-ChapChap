@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "DropFlexa | Fast, Reliable Same-Day Deliveries",
-  description: "Technology-driven courier and logistics company operating in Kenya.",
+  description: "Technology-driven express courier and delivery company operating in Kenya.",
 };
 
 export default function RootLayout({

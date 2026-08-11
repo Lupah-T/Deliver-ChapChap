@@ -37,7 +37,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Phone</h3>
-                  <p className="text-muted-foreground">+254 713 482 742</p>
+                  <p className="text-muted-foreground"><a href="tel:+254713482742" className="hover:text-primary transition-colors">+254 713 482 742</a></p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -46,7 +46,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Email</h3>
-                  <p className="text-muted-foreground">support@dropflexa.co.ke</p>
+                  <p className="text-muted-foreground"><a href="mailto:support@dropflexa.co.ke" className="hover:text-primary transition-colors">support@dropflexa.co.ke</a></p>
                 </div>
               </div>
             </CardContent>

@@ -90,7 +90,7 @@ export default function PricingPage() {
         <Card className="border-none shadow-lg hover:shadow-xl transition-all bg-secondary text-secondary-foreground">
           <CardHeader>
             <CardTitle className="text-2xl">Corporate Business</CardTitle>
-            <CardDescription className="text-gray-400">For high-volume business logistics.</CardDescription>
+            <CardDescription className="text-gray-400">For high-volume business courier services.</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="mb-6">

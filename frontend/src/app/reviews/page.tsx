@@ -6,7 +6,7 @@ export default function ReviewsPage() {
     { name: 'Sarah Wanjiku', role: 'Small Business Owner', rating: 5, comment: 'DropFlexa has transformed my business. My customers receive their packages within hours!' },
     { name: 'David Ochieng', role: 'Corporate Executive', rating: 5, comment: 'The tracking system is flawless. I always know exactly where my urgent documents are.' },
     { name: 'Grace Mutuku', role: 'Regular Customer', rating: 4, comment: 'Very reliable motorbike riders. They navigate Nairobi traffic exceptionally well.' },
-    { name: 'Kevin Kipruto', role: 'E-commerce Seller', rating: 5, comment: 'The best logistics partner in Kenya. Professional, fast, and affordable.' },
+    { name: 'Kevin Kipruto', role: 'E-commerce Seller', rating: 5, comment: 'The best courier partner in Kenya. Professional, fast, and affordable.' },
   ]
 
   return (
