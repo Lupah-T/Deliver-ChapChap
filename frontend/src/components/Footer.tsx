@@ -38,7 +38,7 @@ export function Footer() {
           <h3 className="font-semibold mb-4 text-primary">Contact</h3>
           <ul className="space-y-2 text-sm text-gray-300">
             <li className="flex items-center space-x-2"><MapPin className="h-4 w-4" /> <span>Nairobi, Kenya</span></li>
-            <li className="flex items-center space-x-2"><Phone className="h-4 w-4" /> <a href="tel:+254700000000" className="hover:text-primary transition-colors">+254 700 000 000</a></li>
+            <li className="flex items-center space-x-2"><Phone className="h-4 w-4" /> <a href="tel:+254711615582" className="hover:text-primary transition-colors">+254 711 615 582</a></li>
             <li className="flex items-center space-x-2"><Mail className="h-4 w-4" /> <a href="mailto:hello@dropflexa.co.ke" className="hover:text-primary transition-colors">hello@dropflexa.co.ke</a></li>
           </ul>
           <div className="mt-4 rounded-md overflow-hidden h-24 w-full bg-gray-800">

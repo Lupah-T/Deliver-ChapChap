@@ -214,7 +214,7 @@ export default function BookingPage() {
 
   if (isSubmitted) {
     const whatsappMsg = `Hello DropFlexa, I want to dispatch my booking. \n*Tracking ID:* ${trackingNumber}\n*Pickup:* ${pickupAddress}\n*Destination:* ${destinationAddress}`;
-    const whatsappUrl = `https://wa.me/254707303816?text=${encodeURIComponent(whatsappMsg)}`;
+    const whatsappUrl = `https://wa.me/254711615582?text=${encodeURIComponent(whatsappMsg)}`;
 
     return (
       <div className="container mx-auto px-4 py-24 flex justify-center min-h-[80vh] items-center">

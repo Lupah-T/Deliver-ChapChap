@@ -168,7 +168,7 @@ export default function Home() {
                   </svg>
                 ))}
               </div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">4.9/5 Average Rating</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">4.7/5 Average Rating</h3>
               <p className="text-gray-500 mb-6">Based on 120+ reviews on Google</p>
               <Link href="/reviews">
                 <Button variant="outline" className="rounded-full">Read All Reviews</Button>

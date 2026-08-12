@@ -37,7 +37,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-secondary">Phone</h3>
-                  <p className="text-muted-foreground"><a href="tel:+254713482742" className="hover:text-primary transition-colors">+254 713 482 742</a></p>
+                  <p className="text-muted-foreground"><a href="tel:+254711615582" className="hover:text-primary transition-colors">+254 711 615 582</a></p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -52,7 +52,7 @@ export default function ContactPage() {
             </CardContent>
           </Card>
 
-          <a href="https://wa.me/254713482742" target="_blank" rel="noreferrer">
+          <a href="https://wa.me/254711615582" target="_blank" rel="noreferrer">
             <Button className="w-full h-14 bg-green-500 hover:bg-green-600 text-white text-lg">
               <MessageCircle className="w-6 h-6 mr-2" /> Chat on WhatsApp
             </Button>

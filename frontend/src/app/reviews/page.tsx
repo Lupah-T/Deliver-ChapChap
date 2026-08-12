@@ -3,10 +3,10 @@ import { Star } from 'lucide-react'
 
 export default function ReviewsPage() {
   const reviews = [
-    { name: 'Sarah Wanjiku', role: 'Small Business Owner', rating: 5, comment: 'DropFlexa has transformed my business. My customers receive their packages within hours!' },
-    { name: 'David Ochieng', role: 'Corporate Executive', rating: 5, comment: 'The tracking system is flawless. I always know exactly where my urgent documents are.' },
-    { name: 'Grace Mutuku', role: 'Regular Customer', rating: 4, comment: 'Very reliable motorbike riders. They navigate Nairobi traffic exceptionally well.' },
-    { name: 'Kevin Kipruto', role: 'E-commerce Seller', rating: 5, comment: 'The best courier partner in Kenya. Professional, fast, and affordable.' },
+    { name: 'Sarah Wanjiku', role: 'Small Business Owner', rating: 5, comment: 'DropFlexa has transformed my business. My customers receive their packages within hours, which is fantastic!' },
+    { name: 'David Ochieng', role: 'Corporate Executive', rating: 4, comment: 'The tracking system is quite reliable. Helps me know where my urgent documents are, though the app UI could be slightly improved.' },
+    { name: 'Grace Mutuku', role: 'Regular Customer', rating: 4, comment: 'Very reliable motorbike riders. They navigate Nairobi traffic exceptionally well and communicate when there are slight delays.' },
+    { name: 'Kevin Kipruto', role: 'E-commerce Seller', rating: 5, comment: 'A solid courier partner in Kenya. Professional and affordable, making it my go-to choice for sending goods.' },
   ]
 
   return (
